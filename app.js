@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const mongoose = require('mongoose');
 const Campground = require('./models/campground');
+var methodOverride = require('method-override')
 
 
 mongoose.connect('mongodb://localhost:27017/yelpcamp-capstone');
@@ -19,6 +20,7 @@ app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
 
 app.use(express.urlencoded({ extended: true }))
+app.use(methodOverride('_method'))
 
 
 app.get('/', (req, res) => {
@@ -44,6 +46,22 @@ app.post('/campgrounds', async (req, res) => {
 app.get('/campgrounds/:id', async (req, res) => {
     const campground = await Campground.findById(req.params.id);
     res.render('./campgrounds/show', { campground })
+})
+
+app.get('/campgrounds/:id/edit', async (req, res) => {
+    const campground = await Campground.findById(req.params.id);
+    res.render('./campgrounds/edit', { campground })
+})
+
+app.put('/campgrounds/:id', async (req, res) => {
+    const updatedCampground = await Campground.findByIdAndUpdate(req.params.id, { ...req.body.campground })
+    res.redirect(`/campgrounds/${updatedCampground._id}`)
+
+})
+
+app.delete('/campgrounds/:id', async (req, res) => {
+    await Campground.findByIdAndDelete(req.params.id);
+    res.redirect('/campgrounds');
 })
 
 app.listen(3000, () => {
