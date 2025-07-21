@@ -42,6 +42,7 @@ app.get('/campgrounds/new', (req, res) => {
 app.post('/campgrounds', async (req, res) => {
     const campground = await new Campground(req.body.campground);
     await campground.save();
+    console.log(campground)
     res.redirect(`/campgrounds/${campground._id}`)
 })
 
