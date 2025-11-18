@@ -42,7 +42,6 @@ const validateCampground = (req, res, next) => {
 
 const validateReview = (req, res, next) => {
     const { error } = reviewSchema.validate(req.body || {});
-    console.log(error)
     if (error) {
         const msg = error.details.map(el => el.message).join(',')
         throw new ExpressError(msg, 400)
@@ -107,8 +106,11 @@ app.post('/campgrounds/:id/reviews', validateReview, catchAsync(async (req, res)
     res.redirect(`/campgrounds/${campground._id}`)
 }))
 
-app.delete('/campgrounds/:id/reviews/:reviewID', catchAsync(async (req, res) => {
-    res.send('pari')
+app.delete('/campgrounds/:id/reviews/:reviewId', catchAsync(async (req, res) => {
+    const { id, reviewId } = req.params;
+    await Campground.findByIdAndUpdate(id, { $pull: { reviews: reviewId } });
+    await Review.findByIdAndDelete(reviewId);
+    res.redirect(`/campgrounds/${id}`)
 }))
 
 app.all(/(.*)/, (req, res, next) => {
