@@ -10,10 +10,16 @@ const { isAuthor } = require('../middleware')
 const { validateCampground } = require('../middleware');
 const { populate } = require('../models/review');
 
+const multer = require('multer')
+const upload = multer({ dest: 'uploads/' })
+
 router.route('/')
     .get(catchAsync(campgrounds.index))
-    .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground))
-
+    // .post(isLoggedIn, validateCampground, catchAsync(campgrounds.createCampground))
+    .post(upload.array('image'), (req, res) => {
+        console.log(req.body)
+        console.log(req.files)
+    })
 
 router.get('/new', isLoggedIn, campgrounds.renderNewForm)
 
