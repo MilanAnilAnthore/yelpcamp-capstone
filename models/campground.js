@@ -6,7 +6,7 @@ const { string } = require('joi');
 
 const CampgroundSchema = new Schema({
     title: String,
-    image: [{
+    images: [{
         url: String,
         filename: String
     }],
