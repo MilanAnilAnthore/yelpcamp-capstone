@@ -43,18 +43,18 @@ map.on('load', () => {
                 'step',
                 ['get', 'point_count'],
                 '#51bbd6',
-                100,
+                10,
                 '#f1f075',
-                750,
+                30,
                 '#f28cb1'
             ],
             'circle-radius': [
                 'step',
                 ['get', 'point_count'],
                 20,
-                100,
+                10,
                 30,
-                750,
+                30,
                 40
             ],
             'circle-emissive-strength': 1
