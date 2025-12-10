@@ -51,11 +51,11 @@ map.on('load', () => {
             'circle-radius': [
                 'step',
                 ['get', 'point_count'],
-                20,
+                15,
                 10,
+                20,
                 30,
-                30,
-                40
+                25
             ],
             'circle-emissive-strength': 1
         }
@@ -121,15 +121,13 @@ map.on('load', () => {
         type: 'click',
         target: { layerId: 'unclustered-point' },
         handler: (e) => {
+            const text = e.feature.properties.popUpMarkup;
             const coordinates = e.feature.geometry.coordinates.slice();
-            const mag = e.feature.properties.mag;
-            const tsunami =
-                e.feature.properties.tsunami === 1 ? 'yes' : 'no';
 
             new mapboxgl.Popup()
                 .setLngLat(coordinates)
                 .setHTML(
-                    `magnitude: ${mag}<br>Was there a tsunami?: ${tsunami}`
+                    text
                 )
                 .addTo(map);
         }
