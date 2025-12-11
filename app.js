@@ -17,6 +17,8 @@ const passport = require('passport');
 const LocalStrategy = require('passport-local');
 const User = require('./models/user')
 
+const sanitizeV5 = require('./utils/mongoSanitizeV5.js');
+
 
 mongoose.connect('mongodb://localhost:27017/yelpcamp-capstone');
 const db = mongoose.connection;
@@ -31,10 +33,13 @@ const app = express();
 app.engine('ejs', ejsMate)
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, 'views'))
+app.set('query parser', 'extended');
 
 app.use(express.urlencoded({ extended: true }))
 app.use(methodOverride('_method'))
 app.use(express.static(path.join(__dirname, 'public')))
+app.use(sanitizeV5({ replaceWith: '_' }));
+
 const sessionConfig = {
     secret: 'thisshouldbeabettersecret!',
     resave: false,
