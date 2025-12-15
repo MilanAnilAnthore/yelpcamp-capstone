@@ -12,15 +12,6 @@ Discover and share the best places to camp. YelpCamp lets users create campgroun
 - **Secure by Default:** Helmet CSP, server+client sanitization, Mongo sanitize, and Joi validation.
 - **Session Auth:** Local auth with Passport, persistent sessions in Mongo via connect‑mongo.
 
-## Demo Screens
-Add screenshots or GIFs (suggested)
-- Home: hero + quick links
-- Campgrounds list: clusters map + cards
-- Campground show: image carousel + map + reviews
-- Auth: register/login
-
-You can capture images from the live app and place them under a `docs/` folder, then reference them here.
-
 ## Tech Stack
 - **Frontend:** EJS templates, Bootstrap 5, Mapbox GL JS
 - **Backend:** Express 5, Mongoose 8, Passport (local)
