@@ -20,8 +20,11 @@ const helmet = require('helmet')
 
 const sanitizeV5 = require('./utils/mongoSanitizeV5.js');
 
+const MongoStore = require('connect-mongo');
 
-mongoose.connect('mongodb://localhost:27017/yelpcamp-capstone');
+const dbUrl = 'mongodb://localhost:27017/yelpcamp-capstone';
+
+mongoose.connect(dbUrl);
 const db = mongoose.connection;
 db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', () => {
@@ -88,7 +91,21 @@ app.use(
     })
 );
 
+
+const store = MongoStore.create({
+    mongoUrl: dbUrl,
+    touchAfter: 24 * 60 * 60,
+    crypto: {
+        secret: 'thisshouldbeabettersecret!'
+    }
+});
+
+store.on('error', function (e) {
+    console.log("SESSION STORE ERROR", e)
+})
+
 const sessionConfig = {
+    store,
     name: 'sessio',
     secret: 'thisshouldbeabettersecret!',
     resave: false,
